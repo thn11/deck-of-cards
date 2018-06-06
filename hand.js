@@ -37,15 +37,15 @@ class Hand {
   updateHTML() {
     //get the paragraph element
     let p = document.getElementById("handP");
+    p.innerHTML = "";
     //if there are cards in the hand, show them
     if (this.cards.length) {
-      p.innerHTML = "";
       this.cards.forEach((card) => {
         p.innerHTML += card.toString() + "<br/>";
       });
-    } else {
-      //Otherwise, show this text
-      p.innerHTML = "No cards in hand";
-    }
+    } 
+    //Display the number of cards instead
+    p.innerHTML += (this.cards.length < 1 ? "No" : this.cards.length) +
+    " cards in the hand";
   }
 }
