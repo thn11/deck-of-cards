@@ -61,20 +61,17 @@ class Deck {
     //get the paragraph element
     let p = document.getElementById("deckP");
     //If the cards should be shown
+    p.innerHTML = "";
     if (document.getElementById("showDeckCheckBox").checked) {
       if (this.cards.length) {
-        p.innerHTML = "";
         this.cards.forEach((card) => {
           p.innerHTML += card.toString() + "<br/>";
         });
-      } else {
-        //if there are no cards in the deck
-        p.innerHTML = "No cards in the deck";
       }
-    } else {
-      //Display the number of cards instead
-      p.innerHTML = (this.cards.length < 1 ? "No" : this.cards.length) +
-        " cards in the deck";
     }
+    //Display the number of cards instead
+    p.innerHTML += (this.cards.length < 1 ? "No" : this.cards.length) +
+      " cards in the deck";
+    
   }
 }
