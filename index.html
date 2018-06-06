@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+  <meta charset="utf-8">
+  <title>Magician's Deck</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 1em;
+      grid-gap: 1em;
+      align-items: start;
+    }
+
+    .wrapper>div {
+      background-color: #eee;
+      text-align: center;
+      padding: 2em;
+    }
+  </style>
+  <script src="sketch.js"></script>
+  <script src="deck.js"></script>
+  <script src="card.js"></script>
+  <script src="hand.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="deck">
+      <h1>Deck</h1>
+      <button type="button" onclick="deck.shuffle()">Shuffle</button>
+      <button type="button" onclick="deck.reset()">Reset</button>
+      <input type="checkbox" onclick="deck.updateHTML()" id="showDeckCheckBox">Show</input>
+      <p id="deckP">52 cards in the deck</p>
+    </div>
+    <div class="hand">
+      <h1>Hand</h1>
+      <button type="button" onclick="hand.draw(deck)">Draw Card</button>
+      <button type="button" onclick="hand.sort()">Sort Cards</button>
+      <button type="button" onclick="hand.reset()">Reset</button>
+      <p id="handP">No cards in hand</p>
+    </div>
+  </div>
+</body>
+
+</html>
