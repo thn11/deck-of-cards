@@ -23,9 +23,9 @@ function draw() {
   //set the background to a game table green
   background(0, 67, 0);
   //show the deck
-  deck.display(20, CARDHEIGHT / 2, width * 8 / 10);
+  deck.display(20, CARDHEIGHT / 2, width - 250); //magic number
   //show the hand
-  hand.display(20, height - CARDHEIGHT * 1.5, width * 8 / 10);
+  hand.display(20, height - CARDHEIGHT * 1.5, width - 250);
 }
 
 //Allows the user to draw more than one card at a time

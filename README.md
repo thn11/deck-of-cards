@@ -6,5 +6,6 @@ reason the CSS is set to a grid layout, as this allows a
 programmer to easily add as many hands and decks as they
 want.
 
-This branch will eventually be the GUI version of the
-project. 
+This branch now represents about 7 to 8 hours of work.
+This version features an animated UI with controls to the side,
+and an added feature for drawing multiple cards at once. 
