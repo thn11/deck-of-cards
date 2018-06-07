@@ -3,6 +3,7 @@ class Deck {
     //reset function is called because the same behaviour is required
     //for the start as for the restart
     this.reset();
+    this.show = false;
   }
 
   reset() {
@@ -11,8 +12,13 @@ class Deck {
     for (let i = 0; i < 52; i++) {
       this.cards[i] = new Card(Math.floor(i / 13), i % 13);
     }
-    this.updateHTML()
     console.log("Deck reset");
+  }
+
+  showHide() {
+    this.show = !this.show;
+    select("#showButton").html(this.show ? "Hide" : "Show");
+    console.log(this.show);
   }
 
   /* This function takes the first card in the deck, removes and then
@@ -23,7 +29,6 @@ class Deck {
       let tempCard = this.cards[0];
       //start splice at index 0 and splice 1 card
       this.cards.splice(0, 1);
-      this.updateHTML()
       return tempCard;
       //could be done in one line:
       //return this.cards.splice(0,1);
@@ -53,25 +58,9 @@ class Deck {
       available.splice(random, 1);
     });
     console.log("Deck is shuffled");
-    this.updateHTML()
   }
 
-  //updates the html to display the cards
-  updateHTML() {
-    //get the paragraph element
-    let p = document.getElementById("deckP");
-    //If the cards should be shown
-    p.innerHTML = "";
-    if (document.getElementById("showDeckCheckBox").checked) {
-      if (this.cards.length) {
-        this.cards.forEach((card) => {
-          p.innerHTML += card.toString() + "<br/>";
-        });
-      }
-    }
-    //Display the number of cards instead
-    p.innerHTML += (this.cards.length < 1 ? "No" : this.cards.length) +
-      " cards in the deck";
-    
+  display() {
+
   }
 }

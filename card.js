@@ -1,8 +1,31 @@
 class Card {
-  constructor(suit, value) {
+  constructor(suit, value, x, y) {
     //A card has a suit and a value
     this.suit = suit;
     this.value = value;
+    this.pos = createVector(x, y);
+  }
+
+  display(x, y) {
+    fill(255);
+    stroke(25);
+    rect(x, y, CARDWIDTH, CARDHEIGHT);
+    this.suit > 2 ? fill(255, 0, 0) : fill(0);
+    text(this.toString, x + CARDWITH / 100, y + CARDHEIGHT / 100);
+  }
+
+
+  getSuit() {
+    switch (this.suit) {
+      case 0:
+        return "Clubs";
+      case 1:
+        return "Spades";
+      case 2:
+        return "Hearts";
+      case 3:
+        return "Diamonds";
+    }
   }
 
   //Nicely format a string to show the card in the console
@@ -30,20 +53,7 @@ class Card {
     output += " of ";
     //Add the suit of the card.
     //To make sorting easier, the order of the suits has been changed
-    switch (this.suit) {
-      case 0:
-        output += "Clubs";
-        break;
-      case 1:
-        output += "Spades";
-        break;
-      case 2:
-        output += "Hearts";
-        break;
-      case 3:
-        output += "Diamonds";
-        break;
-    }
+    output += this.getSuit();
     return output;
   }
 }

@@ -9,22 +9,26 @@
     body {
       padding: 0;
       margin: 0;
+      overflow: hidden;
     }
 
     .wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding: 1em;
-      grid-gap: 1em;
-      align-items: start;
+      position: absolute;
+      border: 2px solid black;
+      background-color: rgba(51, 51, 51, 0.5);
+      right: 0px;
+      text-align: center;
+      padding: 1em 2em 1em 2em;
     }
 
     .wrapper>div {
-      background-color: #eee;
       text-align: center;
-      padding: 2em;
+      display: grid;
+      grid-gap: 0.5em;
     }
   </style>
+  <script src="source/p5.min.js"></script>
+  <script src="source/p5.dom.min.js"></script>
   <script src="sketch.js"></script>
   <script src="deck.js"></script>
   <script src="card.js"></script>
@@ -33,19 +37,17 @@
 
 <body>
   <div class="wrapper">
-    <div class="deck">
+    <div class="options">
+
+
       <h1>Deck</h1>
       <button type="button" onclick="deck.shuffle()">Shuffle</button>
+      <button type="button" id="showButton" onclick="deck.showHide()">Show</button>
       <button type="button" onclick="deck.reset()">Reset</button>
-      <input type="checkbox" onclick="deck.updateHTML()" id="showDeckCheckBox">Show</input>
-      <p id="deckP">52 cards in the deck</p>
-    </div>
-    <div class="hand">
       <h1>Hand</h1>
       <button type="button" onclick="hand.draw(deck)">Draw Card</button>
       <button type="button" onclick="hand.sort()">Sort Cards</button>
       <button type="button" onclick="hand.reset()">Reset</button>
-      <p id="handP">No cards in hand</p>
     </div>
   </div>
 </body>
