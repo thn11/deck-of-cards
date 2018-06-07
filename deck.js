@@ -15,8 +15,10 @@ class Deck {
     console.log("Deck reset");
   }
 
+  //toggles hiding the cards the cards and sets the text on the button accordingly
   showHide() {
     this.show = !this.show;
+    //set the button text
     select("#showButton").html(this.show ? "Hide" : "Show");
     console.log(this.show);
   }
@@ -61,6 +63,7 @@ class Deck {
     console.log("Deck is shuffled");
   }
 
+  //See hand.js for detailed explanation
   display(x, y, w) {
     let delta = (w - CARDWIDTH) / (this.cards.length);
     let position = x;
