@@ -1,7 +1,7 @@
 let deck;
 let hand;
-const CARDHEIGHT = 200; //set the card height to 200 (arbitrary),
-const CARDWIDTH = CARDHEIGHT * 0.7142857; //and set the card width according to
+let CARDHEIGHT = 200; //set the card height to 200 (arbitrary),
+let CARDWIDTH = CARDHEIGHT * 0.7142857; //and set the card width according to
 //the actual difference between width
 //and height of a normal playing card
 
@@ -11,6 +11,10 @@ function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   deck = new Deck();
   hand = new Hand();
+  if (width > height) {
+    CARDHEIGHT = height / 4;
+    CARDWIDTH = CARDHEIGHT * 0.7142857;
+  }
 }
 
 //p5.js function. Gets called about 30 times a second, and usually displays
@@ -19,9 +23,9 @@ function draw() {
   //set the background to a game table green
   background(0, 67, 0);
   //show the deck
-  deck.display(20, CARDHEIGHT, width * 8 / 10);
+  deck.display(20, CARDHEIGHT / 2, width * 8 / 10);
   //show the hand
-  hand.display(20, height - CARDHEIGHT * 2, width * 8 / 10);
+  hand.display(20, height - CARDHEIGHT * 1.5, width * 8 / 10);
 }
 
 //Allows the user to draw more than one card at a time

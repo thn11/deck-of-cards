@@ -19,6 +19,7 @@ class Card {
       //move to the middle of the card
       translate(this.pos.x + CARDWIDTH / 2, this.pos.y + CARDHEIGHT / 2);
       textAlign(LEFT, TOP);
+      noStroke();
       textSize(16);
       //draw the suit in the top left corner
       text(this.getSuit(true), -CARDWIDTH / 2 + 5, -CARDHEIGHT / 2);
