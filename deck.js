@@ -68,7 +68,7 @@ class Deck {
     let delta = (w - CARDWIDTH) / (this.cards.length);
     let position = x;
     this.cards.forEach(c => {
-      c.display(position, y, !this.show);
+      c.display(position + delta / 2, y, !this.show);
       position += delta;
     });
   }

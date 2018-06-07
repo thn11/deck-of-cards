@@ -45,9 +45,9 @@ class Hand {
     //find the X increment between cards
     let delta = (w - CARDWIDTH) / (this.cards.length);
     let position = x;
-    //Display each card and increment position by delta 
+    //Display each card and increment position by delta
     this.cards.forEach(c => {
-      c.display(position, y);
+      c.display(position + delta / 2, y);
       position += delta;
     });
   }
