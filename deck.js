@@ -10,7 +10,7 @@ class Deck {
     this.cards = [];
     //create a deck of cards in ascending order
     for (let i = 0; i < 52; i++) {
-      this.cards[i] = new Card(Math.floor(i / 13), i % 13);
+      this.cards[i] = new Card(Math.floor(i / 13), i % 13, -CARDWIDTH, -CARDHEIGHT);
     }
     console.log("Deck reset");
   }
@@ -47,6 +47,7 @@ class Deck {
     for (let i = 0; i < this.cards.length; i++) {
       available[i] = i;
       tempCards[i] = this.cards[i];
+      tempCards[i].pos.y += random(-100, 100);
     }
 
     //for each temporary card, put it somewhere in the deck and remove
@@ -60,7 +61,12 @@ class Deck {
     console.log("Deck is shuffled");
   }
 
-  display() {
-
+  display(x, y, w) {
+    let delta = (w - CARDWIDTH) / (this.cards.length);
+    let position = x;
+    this.cards.forEach(c => {
+      c.display(position, y, !this.show);
+      position += delta;
+    });
   }
 }

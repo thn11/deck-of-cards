@@ -30,7 +30,12 @@ class Hand {
     console.log("Hand is sorted");
   }
 
-  display() {
-
+  display(x, y, w) {
+    let delta = (w - CARDWIDTH) / (this.cards.length);
+    let position = x;
+    this.cards.forEach(c => {
+      c.display(position, y);
+      position += delta;
+    });
   }
 }
