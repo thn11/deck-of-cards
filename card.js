@@ -1,17 +1,25 @@
 class Card {
-  constructor(suit, value, x, y) {
+  constructor(suit, value, x, y, hide) {
     //A card has a suit, a value, and a position
     this.suit = suit;
     this.value = value;
     this.pos = createVector(x, y);
+    if (hide) {
+      this.hide = hide;
+    } else {
+      this.hide = false;
+    }
   }
 
   display(x, y, hide) {
+    if (hide != null) {
+      this.hide = hide;
+    }
     strokeWeight(1);
     fill(255);
     stroke(25);
-    this.aproach(createVector(x, y));
-    if (!hide) {
+    this.approach(createVector(x, y));
+    if (!this.hide) {
       //Draw the rect that makes up the body of the card
       rect(this.pos.x, this.pos.y, CARDWIDTH, CARDHEIGHT);
       this.suit >= 2 ? fill(255, 0, 0) : fill(0);
@@ -52,9 +60,23 @@ class Card {
     }
   }
 
+  checkWithin(pos) {
+    if (pos.x < this.pos.x) {
+      return false;
+    } else if (pos.x > this.pos.x + CARDWIDTH) {
+      return false;
+    } else if (pos.y < this.pos.y) {
+      return false;
+    } else if (pos.y > this.pos.y + CARDHEIGHT) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   //This function lets the card slowly approach whatever position the
   //program wants it to be in. It takes a p5.Vector object as a param
-  aproach(target) {
+  approach(target) {
     //find the difference between the current position and the wanted position
     let difference = p5.Vector.sub(this.pos, target);
     //limit the length of the vector to 8 units

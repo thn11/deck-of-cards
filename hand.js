@@ -21,6 +21,7 @@ class Hand {
     //if card is not null
     if (card) {
       //add the card and let the user know
+      card.hide = false;
       this.cards[this.cards.length] = card;
       console.log("Added " + card.toString() + " to hand");
     } else {
@@ -39,16 +40,35 @@ class Hand {
     console.log("Hand is sorted");
   }
 
+  drawSlot(x, y) {
+    stroke(0);
+    fill(255, 255, 255, 100);
+    strokeWeight(3);
+    rect(x, y, CARDWIDTH, CARDHEIGHT);
+  }
+
+  checkCards(x, y) {
+    if (this.cards.length && this.cards[this.cards.length - 1].checkWithin(createVector(x, y))) {
+      return this.cards.splice(this.cards.length - 1, 1);
+    } else {
+      return null;
+    }
+  }
+
   //Shows the hand on the screen. It takes a position and a width as arguments
   //but no height, because that is defined by the global card height
-  display(x, y, w) {
+  display(x, y) {
     //find the X increment between cards
-    let delta = (w - CARDWIDTH) / (this.cards.length);
-    let position = x;
-    //Display each card and increment position by delta
-    this.cards.forEach(c => {
-      c.display(position + delta / 2, y);
-      position += delta;
-    });
+    if (this.cards.length) {
+      //Display each card and increment position by delta
+
+      for (let i = 5; i > 0; i--) {
+        if (this.cards[this.cards.length - i]) {
+          this.cards[this.cards.length - i].display(x, y);
+        }
+      }
+    } else {
+      this.drawSlot(x, y);
+    }
   }
 }

@@ -1,7 +1,8 @@
 class Deck {
-  constructor() {
+  constructor(x, y) {
     //reset function is called because the same behaviour is required
     //for the start as for the restart
+    this.pos = createVector(x, y);
     this.reset();
     this.show = false;
   }
@@ -10,9 +11,17 @@ class Deck {
     this.cards = [];
     //create a deck of cards in ascending order
     for (let i = 0; i < 52; i++) {
-      this.cards[i] = new Card(Math.floor(i / 13), i % 13, -CARDWIDTH, -CARDHEIGHT);
+      this.cards[i] = new Card(Math.floor(i / 13), i % 13, this.pos.x, this.pos.y, true);
     }
+    this.shuffle();
     console.log("Deck reset");
+  }
+
+  transfer(cards) {
+    this.cards = [];
+    for (let i = 0; i < cards.length; i++) {
+      this.cards[i] = cards[i];
+    }
   }
 
   //toggles hiding the cards the cards and sets the text on the button accordingly
@@ -63,13 +72,29 @@ class Deck {
     console.log("Deck is shuffled");
   }
 
+  checkWithin(target) {
+    if (target.x < this.pos.x) {
+      return false;
+    } else if (target.x > this.pos.x + CARDWIDTH) {
+      return false;
+    } else if (target.y < this.pos.y) {
+      return false;
+    } else if (target.y > this.pos.y + CARDHEIGHT) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   //See hand.js for detailed explanation
   display(x, y, w) {
-    let delta = (w - CARDWIDTH) / (this.cards.length);
-    let position = x;
-    this.cards.forEach(c => {
-      c.display(position + delta / 2, y, !this.show);
-      position += delta;
-    });
+    if (this.cards.length) {
+      this.cards[0].display(this.pos.x, this.pos.y, true);
+      this.cards.forEach(c => c.approach(this.pos));
+    } else {
+      stroke(0);
+      fill(255, 255, 255, 100);
+      rect(this.pos.x, this.pos.y, CARDWIDTH, CARDHEIGHT);
+    }
   }
 }

@@ -11,22 +11,6 @@
       margin: 0;
       overflow: hidden;
     }
-
-    .wrapper {
-      position: absolute;
-      border: 2px solid black;
-      background-color: rgba(51, 51, 51, 0.5);
-      right: 0px;
-      text-align: center;
-      padding: 1em 2em 1em 2em;
-      height: 100%;
-    }
-
-    .wrapper>div {
-      text-align: center;
-      display: grid;
-      grid-gap: 0.5em;
-    }
   </style>
   <script src="source/p5.min.js"></script>
   <script src="source/p5.dom.min.js"></script>
@@ -34,27 +18,12 @@
   <script src="deck.js"></script>
   <script src="card.js"></script>
   <script src="hand.js"></script>
+  <script src="aces.js"></script>
+  <script src="pile.js"></script>
+  <script src="carrier.js"></script>
 </head>
 
 <body>
-  <div class="wrapper">
-    <div class="options">
-      <h1>Deck</h1>
-      <button type="button" onclick="deck.shuffle()">Shuffle</button>
-      <button type="button" id="showButton" onclick="deck.showHide()">Show</button>
-      <button type="button" onclick="deck.reset()">Reset</button>
-      <h1>Hand</h1>
-      <button type="button" onclick="hand.draw(deck)">Draw Card</button>
-      <div class="drawMany">
-        <input type="number" value="5" id="drawMore" style="width:50px"></input>
-        <button type="button" onclick="drawMany()">Draw Several</button>
-      </div>
-      <button type="button" onclick="hand.sort()">Sort Cards</button>
-      <button type="button" onclick="hand.reset()">Reset</button>
-      <h1>General</h1>
-      <button type="button" onclick="hand.reset();deck.reset()">Reset All</button>
-    </div>
-  </div>
 </body>
 
 </html>
