@@ -6,6 +6,7 @@ class Pile {
 
   //reset the hand
   reset() {
+    this.pos = createVector(0, 0);
     this.cards = [];
     console.log("Hand reset");
   }
@@ -36,23 +37,46 @@ class Pile {
     rect(x, y, CARDWIDTH, CARDHEIGHT);
   }
 
+
+  getCoords() {
+    let coords = {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0
+    };
+    coords.x = this.pos.x;
+    coords.y = this.pos.y;
+    coords.w = CARDWIDTH;
+    coords.h = CARDHEIGHT + 40 * this.cards.length;
+    return coords;
+  }
+
+  giveCards(cards) {
+    cards.forEach(c => this.addCard(c));
+  }
+
   checkCards(x, y) {
     for (let i = this.cards.length - 1; i >= 0; i--) {
       if (this.cards[i].checkWithin(createVector(x, y))) {
-        return this.cards.splice(i, this.cards.length - i);
+        return {
+          cards: this.cards.splice(i, this.cards.length - i),
+          origin: this
+        };
       }
     }
   }
 
-  showLast() {
-    if (this.cards.length && this.cards[this.cards.length - 1].hide) {
+  showLast(showLast) {
+    if (showLast && this.cards.length && this.cards[this.cards.length - 1].hide) {
       this.cards[this.cards.length - 1].hide = false;
     }
   }
 
   //Shows the hand on the screen. It takes a position and a width as arguments
   //but no height, because that is defined by the global card height
-  display(x, y) {
+  display(x, y, showLast) {
+    this.pos = createVector(x, y);
     //find the X increment between cards
     let delta = 40;
     let position = y;
@@ -65,6 +89,6 @@ class Pile {
     } else {
       this.drawSlot(x, y);
     }
-    this.showLast();
+    this.showLast(showLast);
   }
 }

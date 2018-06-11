@@ -93,6 +93,7 @@ class Deck {
       this.cards.forEach(c => c.approach(this.pos));
     } else {
       stroke(0);
+      strokeWeight(3);
       fill(255, 255, 255, 100);
       rect(this.pos.x, this.pos.y, CARDWIDTH, CARDHEIGHT);
     }

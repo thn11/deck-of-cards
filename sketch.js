@@ -36,12 +36,33 @@ function draw() {
   hand.display(50 + CARDWIDTH + CARDGAP, 50);
 
   for (let i = 0; i < piles.length; i++) {
-    piles[i].display(50 + (CARDWIDTH + CARDGAP) * i, 50 + CARDHEIGHT + CARDGAP);
+    piles[i].display(50 + (CARDWIDTH + CARDGAP) * i, 50 + CARDHEIGHT + CARDGAP, !carrier.isCarrying);
   }
 
   aces.display(50 + 3 * (CARDWIDTH + CARDGAP), 50);
 
   carrier.display(mouseX, mouseY);
+
+
+  if (carrier.isCarrying) {
+    let tempPos = aces.getCoords();
+    if (carrier.checkOver(tempPos, mouseX, mouseY)) {
+      stroke(0, 255, 0);
+      noFill();
+      rect(tempPos.x, tempPos.y, tempPos.w, tempPos.h);
+    }
+
+    for (let i = 0; i < 7; i++) {
+      let tempPos = piles[i].getCoords();
+      if (carrier.checkOver(tempPos, mouseX, mouseY)) {
+        stroke(0, 255, 0);
+        noFill();
+        rect(tempPos.x, tempPos.y, tempPos.w, tempPos.h);
+        break;
+      }
+    }
+
+  }
 }
 
 function deal() {
@@ -103,9 +124,30 @@ function mousePressed() {
       }
     }
   } else {
-    //give the carrier the card
-    carrier.addCards(findCard());
-    //update the lock position for the mouse
-    carrier.setOffset(mouseX, mouseY);
+    let tempCardsObj = findCard();
+    if (tempCardsObj) {
+      let tempCards = tempCardsObj.cards;
+      let tempCardsOrigin = tempCardsObj.origin;
+      //give the carrier the card
+      carrier.addCards(tempCards, tempCardsOrigin);
+      //update the lock position for the mouse
+      carrier.setOffset(mouseX, mouseY);
+    }
   }
+}
+
+function mouseReleased() {
+  if (carrier.checkOver(aces.getCoords(), mouseX, mouseY)) {
+    carrier.drop(aces);
+  } else {
+    for (let i = 0; i < 7; i++) {
+      if (carrier.checkOver(piles[i].getCoords(), mouseX, mouseY)) {
+        carrier.drop(piles[i]);
+        carrier.empty();
+        return;
+      }
+    }
+    carrier.dropBack();
+  }
+  carrier.empty();
 }

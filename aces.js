@@ -6,15 +6,64 @@ class Aces {
 
   //reset the hand
   reset() {
+    this.pos = createVector(0, 0);
     this.hearts = [];
     this.diamonds = [];
     this.clubs = [];
     this.spades = [];
-    console.log("Hand reset");
+    console.log("Aces reset");
   }
 
   checkCards(x, y) {
+    let pos = createVector(x, y);
+    //check the last card in each pile
+    if (this.hearts.length && this.hearts[this.hearts.length - 1].checkWithin(pos)) {
+      return {
+        cards: this.hearts.splice(this.hearts.length - 1, 1),
+        origin: this
+      };
 
+    } else if (this.diamonds.length && this.diamonds[this.diamonds.length - 1].checkWithin(pos)) {
+      return {
+        cards: this.diamonds.splice(this.diamonds.length - 1, 1),
+        origin: this
+      };
+
+    } else if (this.clubs.length && this.clubs[this.clubs.length - 1].checkWithin(pos)) {
+      return {
+        cards: this.clubs.splice(this.clubs.length - 1, 1),
+        origin: this
+      };
+
+    } else if (this.spades.length && this.spades[this.spades.length - 1].checkWithin(pos)) {
+      return {
+        cards: this.spades.splice(this.spades.length - 1, 1),
+        origin: this
+      };
+
+    } else {
+      return null;
+    }
+  }
+
+
+  giveCards(cards) {
+    cards.forEach(c => this.addCard(c));
+  }
+
+
+  getCoords() {
+    let coords = {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0
+    };
+    coords.x = this.pos.x;
+    coords.y = this.pos.y;
+    coords.w = CARDWIDTH * 4 + CARDGAP * 3;
+    coords.h = CARDHEIGHT;
+    return coords;
   }
 
   //Uses internal functios to add a card. This could be turned into one
@@ -33,13 +82,13 @@ class Aces {
           this.clubs[this.clubs.length] = card;
           break;
         case 1:
-          this.spades[this.clubs.length] = card;
+          this.spades[this.spades.length] = card;
           break;
         case 2:
-          this.hearts[this.clubs.length] = card;
+          this.hearts[this.hearts.length] = card;
           break;
         case 3:
-          this.diamonds[this.clubs.length] = card;
+          this.diamonds[this.diamonds.length] = card;
           break;
       }
     } else {
@@ -58,6 +107,7 @@ class Aces {
   //Shows the hand on the screen. It takes a position and a width as arguments
   //but no height, because that is defined by the global card height
   display(x, y) {
+    this.pos = createVector(x, y);
     //find the X increment between cards
     let delta = CARDWIDTH + CARDGAP;
     let position = x;
