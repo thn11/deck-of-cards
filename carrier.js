@@ -7,24 +7,53 @@ class Carrier {
   //reset the hand
   empty() {
     this.cards = [];
+    this.origin = null;
+    this.isCarrying = false;
     this.mouseOffset = createVector(0, 0);
     console.log("Carrier Emptied");
   }
 
-  //Uses internal functios to add a card. This could be turned into one
-  //function, although it handles interaction with the deck
-  draw(deck) {
-    this.addCard(deck.popCard());
+  dropBack() {
+    if (this.origin) {
+      this.origin.giveCards(this.cards);
+      this.cards = [];
+    }
+  }
+
+  checkOver(position, x, y) {
+    if (x < position.x) {
+      return false;
+    } else if (x > position.x + position.w) {
+      return false;
+    } else if (y < position.y) {
+      return false;
+    } else if (y > position.y + position.h) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  drop(object) {
+    object.giveCards(this.cards);
+    this.cards = [];
   }
 
   setOffset(x, y) {
-    let tempX = this.cards[0].pos.x - x;
-    let tempY = this.cards[0].pos.y - y;
-    this.mouseOffset = createVector(tempX, tempY);
+    if (x && y) {
+      let tempX = this.cards[0].pos.x - x;
+      let tempY = this.cards[0].pos.y - y;
+      this.mouseOffset = createVector(tempX, tempY);
+    } else {
+      this.mouseOffset = createVector(0, 0);
+    }
   }
 
   //Adds a card to the cards array, if it exists.
-  addCards(cards) {
+  addCards(cards, origin) {
+    this.isCarrying = true;
+    this.origin = origin;
+    console.log("Adding " + cards[0].toString() + " to carrier");
     //if card is not null
     if (cards) {
       this.cards = cards;

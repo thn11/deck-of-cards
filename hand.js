@@ -6,6 +6,7 @@ class Hand {
 
   //reset the hand
   reset() {
+    this.pos = createVector(0, 0);
     this.cards = [];
     console.log("Hand reset");
   }
@@ -30,16 +31,6 @@ class Hand {
     }
   }
 
-  //sorts the cards first by suit then by value.
-  sort() {
-    this.cards.sort((a, b) => {
-      //gives the value of the card a 1/100th the "importance" of the suit
-      //this could also be a.suit * 13 + a.value - b.suit * 13 + b.value
-      return (a.suit - b.suit) + 0.01 * (a.value - b.value);
-    });
-    console.log("Hand is sorted");
-  }
-
   drawSlot(x, y) {
     stroke(0);
     fill(255, 255, 255, 100);
@@ -47,9 +38,30 @@ class Hand {
     rect(x, y, CARDWIDTH, CARDHEIGHT);
   }
 
+  getCoords() {
+    let coords = {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0
+    };
+    coords.x = this.pos.x;
+    coords.y = this.pos.y;
+    coords.w = CARDWIDTH;
+    coords.h = CARDHEIGHT;
+    return coords;
+  }
+
+  giveCards(cards) {
+    cards.forEach(c => this.addCard(c));
+  }
+
   checkCards(x, y) {
     if (this.cards.length && this.cards[this.cards.length - 1].checkWithin(createVector(x, y))) {
-      return this.cards.splice(this.cards.length - 1, 1);
+      return {
+        cards: this.cards.splice(this.cards.length - 1, 1),
+        origin: this
+      };
     } else {
       return null;
     }
@@ -58,6 +70,7 @@ class Hand {
   //Shows the hand on the screen. It takes a position and a width as arguments
   //but no height, because that is defined by the global card height
   display(x, y) {
+    this.pos = createVector(x, y);
     //find the X increment between cards
     if (this.cards.length) {
       //Display each card and increment position by delta
