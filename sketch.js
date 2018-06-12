@@ -9,8 +9,11 @@ let piles = [];
 let aces;
 let carrier;
 
-//As soon as the window loads, create the deck and the hand objects
-//setup is a p5.js function that gets called after the window loads
+
+/**
+ * Called as soon as the window loads. This function creates the required
+ * objects and sets up the card variables.
+ */
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   deck = new Deck(50, 50);
@@ -25,8 +28,11 @@ function setup() {
   CARDGAP = (width - (100 + CARDWIDTH * 7)) / 6;
 }
 
-//p5.js function. Gets called about 30 times a second, and usually displays
-//objects on screen.
+
+/**
+ * p5.js function. This function gets called about 30 times a second, and
+ * will usually be responsible for displaying objects on screen.
+ */
 function draw() {
   //set the background to a game table green
   background(0, 67, 0);

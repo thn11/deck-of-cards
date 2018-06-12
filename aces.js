@@ -1,10 +1,16 @@
 class Aces {
+  /**
+   * Represents the aces in the top right corner
+   * @constructor
+   */
   constructor() {
     //reset creates the cards array, so might as well use it here
     this.reset();
   }
 
-  //reset the hand
+  /**
+   * Resets the aces, removing all cards
+   */
   reset() {
     this.pos = createVector(0, 0);
     this.hearts = [];
@@ -14,6 +20,11 @@ class Aces {
     console.log("Aces reset");
   }
 
+  /**
+   * Checks if the x,y coordinates are on top of a card in the aces
+   * @param {float} x - the X coordinates of the point to check
+   * @param {float} y - the Y coordinates of the point to check
+   */
   checkCards(x, y) {
     let pos = createVector(x, y);
     //check the last card in each pile
@@ -46,7 +57,10 @@ class Aces {
     }
   }
 
-
+  /**
+   * Runs this.addCard for each card
+   * @param {Card} - cards to be added
+   */
   giveCards(cards) {
     cards.forEach(c => this.addCard(c));
   }
