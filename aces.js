@@ -65,7 +65,10 @@ class Aces {
     cards.forEach(c => this.addCard(c));
   }
 
-
+  /**
+   * Returns the coordinates of the aces, and the width and height
+   * @return coords - x, y, w, and h coordiantes
+   */
   getCoords() {
     let coords = {
       x: 0,
@@ -80,17 +83,24 @@ class Aces {
     return coords;
   }
 
-  //Uses internal functios to add a card. This could be turned into one
-  //function, although it handles interaction with the deck
+  /**
+   * Uses the internal addCard functon to add a card to the aces
+   * @param deck - the deck to draw from
+   */
   draw(deck) {
     this.addCard(deck.popCard());
   }
 
-  //Adds a card to the cards array, if it exists.
+  /**
+   * Adds a card to the aces, sorting it into the correct array.
+   * @param card - the card to add
+   */
   addCard(card) {
+    //show the card
     card.hide = false;
     //if card is not null
     if (card) {
+      //put the card into the correct array
       switch (card.suit) {
         case 0:
           this.clubs[this.clubs.length] = card;
@@ -106,11 +116,16 @@ class Aces {
           break;
       }
     } else {
-      //the card is null, let the user know
+      //there is no card, let the user know
       console.log("No cards found!");
     }
   }
 
+  /**
+   * Display an empty slot to indicate cards can go there
+   * @param x - the X position of the slot
+   * @param y - the Y position of the slot
+   */
   displaySlot(x, y) {
     stroke(0);
     fill(255, 255, 255, 100);
@@ -118,14 +133,17 @@ class Aces {
     rect(x, y, CARDWIDTH, CARDHEIGHT);
   }
 
-  //Shows the hand on the screen. It takes a position and a width as arguments
-  //but no height, because that is defined by the global card height
+  /**
+   * Shows the aces onscreen.
+   * @param x - the X position to display the hand at
+   * @param y - the Y position to display the hand at
+   */
   display(x, y) {
     this.pos = createVector(x, y);
     //find the X increment between cards
     let delta = CARDWIDTH + CARDGAP;
     let position = x;
-    //Display each card and increment position by delta
+    //Display each array's last card and increment position by delta
     if (this.spades.length) {
       this.spades[this.spades.length - 1].display(position, y);
     } else {

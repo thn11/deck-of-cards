@@ -41,23 +41,25 @@ function draw() {
   //show the hand
   hand.display(50 + CARDWIDTH + CARDGAP, 50);
 
+  //display the piles
   for (let i = 0; i < piles.length; i++) {
     piles[i].display(50 + (CARDWIDTH + CARDGAP) * i, 50 + CARDHEIGHT + CARDGAP, !carrier.isCarrying);
   }
-
+  //display the aces
   aces.display(50 + 3 * (CARDWIDTH + CARDGAP), 50);
-
+  //display the carrier
   carrier.display(mouseX, mouseY);
 
-
+  //if the carrier is carrying a card
   if (carrier.isCarrying) {
     let tempPos = aces.getCoords();
+    //if the carrier is over the aces, show a green border around it
     if (carrier.checkOver(tempPos, mouseX, mouseY)) {
       stroke(0, 255, 0);
       noFill();
       rect(tempPos.x, tempPos.y, tempPos.w, tempPos.h);
     }
-
+    //do the same for each pile
     for (let i = 0; i < 7; i++) {
       let tempPos = piles[i].getCoords();
       if (carrier.checkOver(tempPos, mouseX, mouseY)) {
@@ -71,6 +73,9 @@ function draw() {
   }
 }
 
+/**
+ * deals out cards to each pile, 1 to the first, 2 to the second, and so on
+ */
 function deal() {
   for (let i = 0; i < 7; i++) {
     for (let j = i; j < 7; j++) {
@@ -79,18 +84,8 @@ function deal() {
   }
 }
 
-//Allows the user to draw more than one card at a time
-//if there are not enough cards in the deck, the hand
-//draws however many cards are available
-function drawMany(num) {
-  //draw cards until the value is reached
-  for (let i = 0; i < num; i++) {
-    hand.draw(deck);
-  }
-}
-
-
-/* Finds the card under the cursor and returns it, or as in the case of
+/**
+ * Finds the card under the cursor and returns it, or as in the case of
  * the piles, returns a list of the cards to be dragged.
  */
 function findCard() {
@@ -116,20 +111,26 @@ function findCard() {
   }
 }
 
-
+/**
+ * p5.js function. This function is called every time the mouse is pressed
+ */
 function mousePressed() {
+  //check if the deck is under the mouse
   if (deck.checkWithin(createVector(mouseX, mouseY))) {
     if (deck.cards.length === 52) {
+      //at the start of the game, deal the cards
       deal();
     } else {
+      //give the hand a card
       if (deck.cards.length === 0) {
         deck.transfer(hand.cards);
         hand.reset();
       } else {
-        drawMany(3);
+        hand.draw(deck);
       }
     }
   } else {
+    //check the other objects
     let tempCardsObj = findCard();
     if (tempCardsObj) {
       let tempCards = tempCardsObj.cards;
@@ -142,10 +143,15 @@ function mousePressed() {
   }
 }
 
+/**
+ * p5.js function. Gets called when the mouse is released.
+ */
 function mouseReleased() {
+  //if the carrier is over the aces, and if it is drop the cards there
   if (carrier.checkOver(aces.getCoords(), mouseX, mouseY)) {
     carrier.drop(aces);
   } else {
+    //otherwise, check if it is over a pile, and drop the cards there
     for (let i = 0; i < 7; i++) {
       if (carrier.checkOver(piles[i].getCoords(), mouseX, mouseY)) {
         carrier.drop(piles[i]);
@@ -153,6 +159,8 @@ function mouseReleased() {
         return;
       }
     }
+    // if the carrier isn't over any object, drop them back to where
+    // they came from
     carrier.dropBack();
   }
   carrier.empty();

@@ -1,6 +1,15 @@
 class Card {
+  /**
+   * A card has a value, a suit and a position. It also knows
+   * if it is face up or down.
+   * @constructor
+   * @param suit - the card's suit represented by a number between 0 and 3
+   * @param value - the card's value, 12 is ace, 0 is 2
+   * @param x - the x coordinates for the card
+   * @param y - the y coordinates for the card
+   * @param hide - defines whether the card should be face up or down
+   */
   constructor(suit, value, x, y, hide) {
-    //A card has a suit, a value, and a position
     this.suit = suit;
     this.value = value;
     this.pos = createVector(x, y);
@@ -11,6 +20,12 @@ class Card {
     }
   }
 
+  /**
+   * Shows the card on screen. Usually called from one of the other classes
+   * @param x - the x coordinates to move towards
+   * @param y - the y coordinates to move towards
+   * @param hide - updates this.hide to match if defined
+   */
   display(x, y, hide) {
     if (hide != null) {
       this.hide = hide;
@@ -60,7 +75,15 @@ class Card {
     }
   }
 
+  /**
+   * Checks if the given position is within the boundaries of the card
+   * @param pos - p5.js Vector object to check for
+   * @return {boolean} - true if the coordinates are within the card
+   */
   checkWithin(pos) {
+    //pretty standard stuff in here, check if x is less than this.x and
+    //the same for y, check if x is more than this.x + this.width, and
+    // the same for y, and if none of those are true, return true
     if (pos.x < this.pos.x) {
       return false;
     } else if (pos.x > this.pos.x + CARDWIDTH) {
@@ -74,21 +97,29 @@ class Card {
     }
   }
 
-  //This function lets the card slowly approach whatever position the
-  //program wants it to be in. It takes a p5.Vector object as a param
+  /**
+   * Moves the card towards the given target at a moderate speed. A linear
+   * component and an exponential component work together to produce the
+   * final result.
+   * @param target - the position to move towards
+   */
   approach(target) {
     //find the difference between the current position and the wanted position
-    let difference = p5.Vector.sub(this.pos, target);
+    let difference = p5.Vector.sub(target, this.pos);
     //limit the length of the vector to 8 units
     difference.limit(8);
-    //subtract that from the position
-    this.pos.sub(difference);
+    //add that to the position
+    this.pos.add(difference);
     //speed things up in the start with some linear interpolation
     this.pos.lerp(target, 0.06);
   }
 
-  //returns the suit in text or as a symbol, depending on whether
-  //the paramater is set / true.
+  /**
+   * Returns the text representing the suit of the card
+   * @param symbol - if set, return the symbol, otherwise the text
+   * @return the symbol or text representing the suit
+   * @todo - could be made into a single switch statement
+   */
   getSuit(symbol) {
     if (symbol) {
       switch (this.suit) {
@@ -114,8 +145,12 @@ class Card {
     }
   }
 
-  //returns the value in text or as a letter / number, depending on whether
-  //the paramater is set / true.
+  /**
+   * Returns the text representing the value of the card
+   * @param symbol - if set, return the symbol, otherwise the text
+   * @return the symbol or text representing the value
+   * @todo - could be made into a single switch statement
+   */
   getValue(symbol) {
     if (symbol) {
       switch (this.value) {
@@ -146,7 +181,10 @@ class Card {
   }
 
 
-  //Nicely format a string to show the card in the console
+  /**
+   * formats a string representing the card
+   * @return output - the string representing the card
+   */
   toString() {
     //first set the value of the card as the string
     let output = this.getValue();

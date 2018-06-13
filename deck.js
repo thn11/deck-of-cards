@@ -1,22 +1,38 @@
 class Deck {
+  /**
+   * a deck represents a deck of cards.
+   * @param x - the x position of the deck
+   * @param y - the y position of the deck
+   */
   constructor(x, y) {
+    this.pos = createVector(x, y);
     //reset function is called because the same behaviour is required
     //for the start as for the restart
-    this.pos = createVector(x, y);
     this.reset();
+    //no cards should be shown while they are in the deck
     this.show = false;
   }
 
+  /**
+   * Resets the deck, giving it all 52 cards and shuffles them
+   */
   reset() {
     this.cards = [];
     //create a deck of cards in ascending order
     for (let i = 0; i < 52; i++) {
       this.cards[i] = new Card(Math.floor(i / 13), i % 13, this.pos.x, this.pos.y, true);
     }
+    // use the shuffle function to shuffle the cards.
+    // p5.js has an Array.shuffle() function that could replace this.
     this.shuffle();
     console.log("Deck reset");
   }
 
+  /**
+   * Enables the hand to transfer the cards back to the deck
+   * @param cards - cards array to be added
+   *
+   */
   transfer(cards) {
     this.cards = [];
     for (let i = 0; i < cards.length; i++) {
@@ -24,16 +40,9 @@ class Deck {
     }
   }
 
-  //toggles hiding the cards the cards and sets the text on the button accordingly
-  showHide() {
-    this.show = !this.show;
-    //set the button text
-    select("#showButton").html(this.show ? "Hide" : "Show");
-    console.log(this.show);
-  }
-
-  /* This function takes the first card in the deck, removes and then
-   * returns it.
+  /**
+   * Takes the first card in the deck, removes and then returns it.
+   * @returns the first card in the deck
    */
   popCard() {
     if (this.cards.length) {
@@ -45,11 +54,13 @@ class Deck {
       //return this.cards.splice(0,1);
       //but I opted for easy reading
     } else {
+      //there are no more cards in the deck
       return null;
     }
   }
 
-  /* This function shuffles the cards in the deck
+  /**
+   * Shuffles the cards in the deck
    */
   shuffle() {
     //One array contains indexes, the other the objects themselves
@@ -72,6 +83,12 @@ class Deck {
     console.log("Deck is shuffled");
   }
 
+  /**
+   * Checks whether or not the target is within the boundaries of the deck
+   * @param target - p5.js vector object of the target to check
+   * @return {boolean} - true if the target is within the boundaries, false
+   * otherwise
+   */
   checkWithin(target) {
     if (target.x < this.pos.x) {
       return false;
@@ -86,12 +103,17 @@ class Deck {
     }
   }
 
-  //See hand.js for detailed explanation
-  display(x, y, w) {
+  /**
+   * shows the deck onscreen
+   */
+  display() {
     if (this.cards.length) {
+      // show the top card and make all cards move towards the position
+      // of the deck
       this.cards[0].display(this.pos.x, this.pos.y, true);
       this.cards.forEach(c => c.approach(this.pos));
     } else {
+      //show the empty slot
       stroke(0);
       strokeWeight(3);
       fill(255, 255, 255, 100);

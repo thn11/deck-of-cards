@@ -1,28 +1,39 @@
 class Hand {
+  /**
+   * A Hand object represents the cards that have been drawn
+   */
   constructor() {
     //reset creates the cards array, so might as well use it here
     this.reset();
   }
 
-  //reset the hand
+  /**
+   * Resets the hand by setting the pos to (0,0) and emptying the cards array
+   */
   reset() {
     this.pos = createVector(0, 0);
     this.cards = [];
     console.log("Hand reset");
   }
 
-  //Uses internal functios to add a card. This could be turned into one
-  //function, although it handles interaction with the deck
+  /**
+   * Uses the internal addCard function to add a card from a given deck
+   * @param deck - the deck to draw from
+   */
   draw(deck) {
     this.addCard(deck.popCard());
   }
 
-  //Adds a card to the cards array, if it exists.
+  /**
+   * adds a card to the cards array
+   * @param card - the card to be added
+   */
   addCard(card) {
     //if card is not null
     if (card) {
-      //add the card and let the user know
+      //ensure card is not hidden
       card.hide = false;
+      //add the card and let the user know
       this.cards[this.cards.length] = card;
       console.log("Added " + card.toString() + " to hand");
     } else {
@@ -31,20 +42,19 @@ class Hand {
     }
   }
 
-  drawSlot(x, y) {
-    stroke(0);
-    fill(255, 255, 255, 100);
-    strokeWeight(3);
-    rect(x, y, CARDWIDTH, CARDHEIGHT);
-  }
-
+  /**
+   * Gives the coordinates of the hand
+   * @return coords - custom object containing an x, a y, a width and a height
+   */
   getCoords() {
+    //make the object
     let coords = {
       x: 0,
       y: 0,
       w: 0,
       h: 0
     };
+    //fill it
     coords.x = this.pos.x;
     coords.y = this.pos.y;
     coords.w = CARDWIDTH;
@@ -52,10 +62,22 @@ class Hand {
     return coords;
   }
 
+  /**
+   * Used by the carrier to give cards to the hand.
+   * @param cards - cards to be added to the cards array
+   */
   giveCards(cards) {
     cards.forEach(c => this.addCard(c));
   }
 
+  /**
+   * checks if the passed coordinates are within each card, and returns the
+   * card and this object if it is.
+   * @param x - the x position to check
+   * @param y - the y position to check
+   * @returns a custom object that contains the cards and a reference to
+   * this object
+   */
   checkCards(x, y) {
     if (this.cards.length && this.cards[this.cards.length - 1].checkWithin(createVector(x, y))) {
       return {
@@ -67,15 +89,28 @@ class Hand {
     }
   }
 
-  //Shows the hand on the screen. It takes a position and a width as arguments
-  //but no height, because that is defined by the global card height
+  /**
+   * draws the empty slot when there are no cards in the hand
+   * @param x - the x position to draw the slot at
+   * @param y - the y position to draw the slot at
+   */
+  drawSlot(x, y) {
+    stroke(0);
+    fill(255, 255, 255, 100);
+    strokeWeight(3);
+    rect(x, y, CARDWIDTH, CARDHEIGHT);
+  }
+
+  /**
+   * Shows the hand onscreen.
+   * @param x - the x position to draw the hand at
+   * @param y - the y position to draw the hand at
+   */
   display(x, y) {
     this.pos = createVector(x, y);
-    //find the X increment between cards
     if (this.cards.length) {
-      //Display each card and increment position by delta
-
       for (let i = 5; i > 0; i--) {
+        //display the top 5 cards
         if (this.cards[this.cards.length - i]) {
           this.cards[this.cards.length - i].display(x, y);
         }
