@@ -10,4 +10,4 @@ This branch now represents about 7 to 8 hours of work.
 This version features an animated UI with controls to the side,
 and an added feature for drawing multiple cards at once. 
 
-The site is live at https://thomas.naesje.com/magician_graphical/
+The project is live at https://thomas.naesje.com/erwin/magician_graphical/
