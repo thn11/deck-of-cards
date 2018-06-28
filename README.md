@@ -12,4 +12,4 @@ is missing the feature that allows a user to draw more
 than one card at a time, but all other features have 
 been implemented. 
 
-The project is live at https://thomas.naesje.com/magician/
+The project is live at https://thomas.naesje.com/erwin/magician/
