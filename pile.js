@@ -25,6 +25,21 @@ class Pile {
     this.addCard(deck.popCard());
   }
 
+  popCard() {
+    if (this.cards.length) {
+      let tempCard = this.cards[this.cards.length - 1];
+      //start splice at index 0 and splice 1 card
+      this.cards.splice(this.cards.length - 1, 1);
+      return tempCard;
+      //could be done in one line:
+      //return this.cards.splice(0,1);
+      //but I opted for easy reading
+    } else {
+      //there are no more cards in the deck
+      return null;
+    }
+  }
+
   /**
    * adds a card to the cards array
    * @param card - the card to be added
@@ -34,7 +49,7 @@ class Pile {
     if (card) {
       //add the card and let the user know
       this.cards[this.cards.length] = card;
-      console.log("Added " + card.toString() + " to hand");
+      console.log("Added " + card.toString() + " to pile");
     } else {
       //the card is null, let the user know
       console.log("No cards found!");
@@ -51,6 +66,40 @@ class Pile {
     fill(255, 255, 255, 100);
     strokeWeight(3);
     rect(x, y, CARDWIDTH, CARDHEIGHT);
+  }
+
+  /**
+   * Figures out if the pile can take the cards
+   * @param cards - the cards to check
+   * @returns true if the cards can be taken
+   */
+  canTake(cards) {
+    //cannot take in any hidden cards
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].hide) {
+        return false;
+      }
+    }
+    //if a pile is empty, always let the cards be placed
+    if (!this.cards.length) {
+      return true;
+    }
+    if (this.cards[this.cards.length - 1].hide) {
+      return true;
+    }
+    let lastCard = this.cards[this.cards.length - 1];
+    let checkCard = cards[0];
+    if (lastCard.suit == checkCard.suit) {
+      return false;
+    } else if (lastCard.value - 1 != checkCard.value) {
+      return false;
+    } else if ((lastCard.suit + checkCard.suit) % 4 === 1) {
+      return false;
+    } else {
+      return true;
+    }
+
+    return false;
   }
 
   /**

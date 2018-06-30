@@ -89,6 +89,21 @@ class Hand {
     }
   }
 
+  popCard() {
+    if (this.cards.length) {
+      let tempCard = this.cards[this.cards.length - 1];
+      //start splice at index 0 and splice 1 card
+      this.cards.splice(this.cards.length - 1, 1);
+      return tempCard;
+      //could be done in one line:
+      //return this.cards.splice(0,1);
+      //but I opted for easy reading
+    } else {
+      //there are no more cards in the deck
+      return null;
+    }
+  }
+
   /**
    * draws the empty slot when there are no cards in the hand
    * @param x - the x position to draw the slot at

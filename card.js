@@ -20,6 +20,10 @@ class Card {
     }
   }
 
+  position(pos) {
+    this.pos = pos;
+  }
+
   /**
    * Shows the card on screen. Usually called from one of the other classes
    * @param x - the x coordinates to move towards
@@ -33,7 +37,9 @@ class Card {
     strokeWeight(1);
     fill(255);
     stroke(25);
-    this.approach(createVector(x, y));
+    if (x != null && y != null) {
+      this.approach(createVector(x, y));
+    }
     if (!this.hide) {
       //Draw the rect that makes up the body of the card
       rect(this.pos.x, this.pos.y, CARDWIDTH, CARDHEIGHT);
@@ -72,6 +78,24 @@ class Card {
       fill(170);
       //draw the circle
       ellipse(this.pos.x + CARDWIDTH / 2, this.pos.y + CARDHEIGHT / 2, 52);
+    }
+  }
+
+  isOutOfScreen() {
+    if (this.pos.x + CARDWIDTH < 0) {
+      console.log("Card is off left");
+      return true;
+    } else if (this.pos.x > width) {
+      console.log("Card is off right");
+      return true;
+    } else if (this.pos.y + CARDHEIGHT < 0) {
+      console.log("Card is off top");
+      return true;
+    } else if (this.pos.y > height) {
+      console.log("Card is off bottom");
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -154,29 +178,29 @@ class Card {
   getValue(symbol) {
     if (symbol) {
       switch (this.value) {
-        case 12:
+        case 0:
           return "A";
-        case 11:
+        case 12:
           return "K";
-        case 10:
+        case 11:
           return "Q";
-        case 9:
+        case 10:
           return "J";
         default:
-          return this.value + 2;
+          return this.value + 1;
       }
     }
     switch (this.value) {
-      case 12:
+      case 0:
         return "Ace";
-      case 11:
+      case 12:
         return "King";
-      case 10:
+      case 11:
         return "Queen";
-      case 9:
+      case 10:
         return "Jack";
       default:
-        return this.value + 2;
+        return this.value + 1;
     }
   }
 
